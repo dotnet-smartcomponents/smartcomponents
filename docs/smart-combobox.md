@@ -98,6 +98,8 @@ If you run the application, you'll see it now *does* suggest semantic matches. F
 
 In most cases you won't want to have a fixed, hardcoded list of candidate suggestions like the code above does. You will likely want to store embeddings in your existing data store (e.g., as a field called `Embedding` on some entity type in a relational DB). To learn more about computing, storing, and querying embeddings, see [Local Embeddings](local-embeddings.md).
 
+Note that the `request` parameter supplied to your `MapSmartComboBox` also contains an `HttpContext` property. You can use that to access other DI services, perform access control, or return user-specific results.
+
 ### Implementing the API endpoint manually
 
 If you don't want to use `MapSmartComboBox`, you can implement an API endpoint manually in any way you like as long as:
