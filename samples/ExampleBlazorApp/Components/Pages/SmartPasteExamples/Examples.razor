@@ -1,0 +1,14 @@
+﻿@page "/smartpaste/{*Path}"
+@using ExampleBlazorApp.Components.TabSet
+
+<PageTitle>Smart Paste</PageTitle>
+
+<TabSet>
+    <Tab TComponent="BasicForm" Url="smartpaste" Text="Basic form" />
+    <Tab TComponent="MailAddress" Url="smartpaste/mail" Text="Mail address" />
+    <Tab TComponent="BugReport" Url="smartpaste/bug" Text="Bug report" />
+</TabSet>
+
+@code {
+    [Parameter] public string? Path { get; set; }
+}

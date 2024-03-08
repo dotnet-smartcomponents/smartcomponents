@@ -1,0 +1,18 @@
+﻿@page
+@model ExampleMvcRazorPagesApp.Pages.SmartPaste.IndexModel
+
+<h1>Smart ComboBox</h1>
+
+<form method="post">
+    <div>
+        <div>
+            <label for="accounting-category">Accounting Category</label>
+            <smart-combobox url="~/api/suggestions/accounting-categories" id="accounting-category" placeholder="Type a category name..." required />
+        </div>
+    </div>
+
+    <div>
+        <button type="submit">Save</button>
+        <button type="reset">Reset</button>
+    </div>
+</form>

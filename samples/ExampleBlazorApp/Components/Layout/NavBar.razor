@@ -1,0 +1,29 @@
+﻿@inject NavigationManager Nav
+
+<div class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+    <a href="" class="flex items-center">
+        <span class="self-center text-lg sm:text-xl font-semibold whitespace-nowrap text-white">Smart Components (Blazor)</span>
+    </a>
+    <div class="flex xl:order-2 space-x-3 xl:space-x-0 rtl:space-x-reverse">
+        <button onclick="document.getElementById('navbar-sticky').classList.toggle('hidden')" type="button" class="inline-flex items-center px-2 w-8 h-8 justify-center text-sm rounded-lg xl:hidden focus:outline-none focus:ring-2 text-gray-400 hover:bg-gray-700 focus:ring-gray-600" aria-controls="navbar-sticky" aria-expanded="false">
+            <span class="sr-only">Open main menu</span>
+            <svg class="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h15M1 7h15M1 13h15" />
+            </svg>
+        </button>
+    </div>
+    <div class="items-center justify-between hidden w-full xl:flex xl:w-auto xl:ml-auto xl:order-1" id="navbar-sticky">
+        <ul class="flex flex-col p-4 xl:p-0 mt-4 font-medium border rounded-lg xl:space-x-8 rtl:space-x-reverse xl:flex-row xl:mt-0 xl:border-0 bg-gray-800 xl:bg-gray-900 border-gray-700">
+            <NavLink href="" class="@LinkClass" ActiveClass="@LinkActiveClass" Match="@NavLinkMatch.All">Home</NavLink>
+            <NavLink href="smartpaste" class="@LinkClass" ActiveClass="@LinkActiveClass">Smart Paste</NavLink>
+            <NavLink href="smartcombobox" class="@LinkClass" ActiveClass="@LinkActiveClass">Smart ComboBox</NavLink>
+            <NavLink href="smarttextarea" class="@LinkClass" ActiveClass="@LinkActiveClass">Smart TextArea</NavLink>
+            <NavLink href="localembeddings" class="@LinkClass" ActiveClass="@LinkActiveClass">Local Embeddings</NavLink>
+        </ul>
+    </div>
+</div>
+
+@code {
+    const string LinkClass = "block py-2 px-3 rounded md:p-0 md:hover:bg-transparent md:border-0 text-white md:hover:text-blue-500 hover:bg-gray-700 hover:text-white";
+    const string LinkActiveClass = "text-white bg-blue-700 md:bg-transparent md:text-blue-500";
+}

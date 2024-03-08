@@ -1,0 +1,8 @@
+<Project>
+    <PropertyGroup>
+        <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+        <RepoRoot>$(MSBuildThisFileDirectory)..\</RepoRoot>
+        <SharedSrcRoot>$(MSBuildThisFileDirectory)shared\</SharedSrcRoot>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    </PropertyGroup>
+</Project>
