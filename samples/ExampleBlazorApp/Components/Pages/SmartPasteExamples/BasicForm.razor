@@ -1,0 +1,31 @@
+﻿<form class="default-form rounded-md bg-gray-200 p-6 shadow-xl mb-12">
+    <div class="grid gap-6 mb-5 md:grid-cols-2">
+        <div>
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Your name" required />
+        </div>
+        <div>
+            <label for="age">Age</label>
+            <input type="number" id="age" placeholder="Your age" required />
+        </div>
+    </div>
+
+    <div class="flex gap-4">
+        <button class="default-button" type="submit">Save</button>
+        <button class="default-button secondary mr-auto" type="reset">Reset</button>
+        <SmartPasteButton DefaultIcon class="default-button secondary" />
+    </div>
+</form>
+
+<h3 class="mb-4">Sample content</h3>
+
+<div class="grid gap-6 md:grid-cols-3">
+    <div class="sample bg-blue-50 p-4 rounded-md whitespace-pre-line" spellcheck="false" contenteditable>Verónica Ortíz</div>
+    <div class="sample bg-blue-50 p-4 rounded-md whitespace-pre-line" spellcheck="false" contenteditable>From: Elio E Marchello
+Date: January 9th, 1998</div>
+    <div class="sample bg-blue-50 p-4 rounded-md whitespace-pre-line" spellcheck="false" contenteditable>Ravi Pawar, born 19 September 2003</div>
+    <div class="sample bg-blue-50 p-4 rounded-md whitespace-pre-line" spellcheck="false" contenteditable>6 Maple Street</div>
+    <div class="sample bg-blue-50 p-4 rounded-md whitespace-pre-line" spellcheck="false" contenteditable>Polish inventor Jan Szczepanik patented a color television system in 1897</div>
+    <div class="sample bg-blue-50 p-4 rounded-md whitespace-pre-line" spellcheck="false" contenteditable>Name: D C Magoo
+Age: 106</div>
+</div>

@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageVersion Include="SmartComponents.AspNetCore" Version="$(SmartComponentsPackageVersion)" />
+    <PackageVersion Include="SmartComponents.Inference.OpenAI" Version="$(SmartComponentsPackageVersion)" />
+    <PackageVersion Include="SmartComponents.LocalEmbeddings" Version="$(SmartComponentsPackageVersion)" />
+  </ItemGroup>
+</Project>

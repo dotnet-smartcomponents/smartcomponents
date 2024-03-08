@@ -1,0 +1,59 @@
+﻿@using SmartComponents.LocalEmbeddings
+@inherits StatefulPageBase<BasicLocalEmbeddings.State>
+@inject LocalEmbedder Embedder
+
+<form class="default-form rounded-md bg-gray-200 p-6 shadow-xl mb-10" method="post" @formname="embedding" @onsubmit="@ComputeEmbedding">
+    <AntiforgeryToken />
+    @HiddenPageState
+    <div class="flex gap-6 items-center">
+        <input autofocus class="flex-grow" name="@(nameof(TextToEmbed))" placeholder="Enter any string here" required />
+        <button class="default-button" type="submit">Embed</button>
+    </div>
+</form>
+
+@if (PageState.TextsWithEmbeddings.Any())
+{
+    <h2 class="font-semibold mb-4">Similarity to "@PageState.LatestText":</h2>
+
+    <ul class="pl-3">
+        @foreach (var text in GetRankedTexts())
+        {
+            <li>
+                <span class="font-semibold text-blue-600 inline-block w-12 mr-2 text-right">@MathF.Round(text.Similarity * 100)%</span>
+                @text.Text
+            </li>
+        }
+    </ul>
+}
+
+@code {
+    [SupplyParameterFromForm]
+    public string? TextToEmbed { get; set; }
+
+    private void ComputeEmbedding()
+    {
+        if (string.IsNullOrEmpty(TextToEmbed))
+        {
+            return;
+        }
+
+        var result = Embedder.Embed<EmbeddingI8>(TextToEmbed);
+        PageState.LatestText = TextToEmbed;
+        PageState.TextsWithEmbeddings[TextToEmbed] = result;
+    }
+
+    private IEnumerable<(string Text, float Similarity)> GetRankedTexts()
+    {
+        var latestEmbedding = PageState.TextsWithEmbeddings[PageState.LatestText!];
+        return PageState.TextsWithEmbeddings
+            .Select(item => (Text: item.Key, Similarity: LocalEmbedder.Similarity(latestEmbedding, item.Value)))
+            .OrderByDescending(x => x.Similarity)
+            .ToArray();
+    }
+
+    public class State
+    {
+        public string? LatestText { get; set; }
+        public Dictionary<string, EmbeddingI8> TextsWithEmbeddings { get; set; } = new();
+    }
+}

@@ -1,0 +1,9 @@
+bin/
+obj/
+*.csproj.user
+*.suo
+*.vs
+node_modules/
+artifacts/
+*.lib.module.js
+.tailwind/

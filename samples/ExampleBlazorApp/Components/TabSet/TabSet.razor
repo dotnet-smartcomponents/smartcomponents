@@ -1,0 +1,27 @@
+﻿<div class="text-sm font-medium text-center text-gray-500 border-b border-gray-200 mb-6">
+    <ul class="flex flex-wrap -mb-px">
+        <CascadingValue Value="@this" IsFixed="@true">
+            @ChildContent
+        </CascadingValue>
+    </ul>
+</div>
+
+@if (currentContentType is not null)
+{
+    <DynamicComponent Type="@currentContentType" />
+}
+
+@code {
+    private Type? currentContentType;
+
+    [Parameter] public RenderFragment? ChildContent { get; set; }
+
+    internal void SetCurrentTabContent(Type componentType)
+    {
+        if (currentContentType != componentType)
+        {
+            currentContentType = componentType;
+            StateHasChanged();
+        }
+    }
+}

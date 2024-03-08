@@ -1,0 +1,54 @@
+﻿@inject NavigationManager Nav
+@typeparam TComponent
+@implements IDisposable
+
+<li class="me-2">
+    <a href="@Url" class="transition-colors inline-block p-4 border-b-2 @CssClasses" aria-current="@AriaCurrent">@Text</a>
+</li>
+
+@code {
+    bool isCurrent;
+
+    [Parameter, EditorRequired] public string Url { get; set; } = default!;
+    [Parameter, EditorRequired] public string Text { get; set; } = default!;
+
+    [CascadingParameter] public TabSet? Owner { get; set; }
+
+    string CssClasses => isCurrent
+        ? "font-semibold text-blue-600 border-blue-600 active"
+        : "border-transparent hover:text-gray-700 hover:border-gray-500";
+
+    string? AriaCurrent => isCurrent ? "page" : null;
+
+    protected override void OnInitialized()
+        => Nav.LocationChanged += RefreshContentVisibility;
+
+    protected override void OnParametersSet()
+        => RefreshContentVisibility(this, new LocationChangedEventArgs(Nav.Uri, false));
+
+    public void Dispose()
+        => Nav.LocationChanged -= RefreshContentVisibility;
+
+    private void RefreshContentVisibility(object? sender, LocationChangedEventArgs args)
+    {
+        if (Owner is null)
+        {
+            throw new InvalidOperationException($"{nameof(Tab<TComponent>)} must be placed inside a {nameof(TabSet)}");
+        }
+
+        var wasCurrent = isCurrent;
+        isCurrent = Url == Nav.ToBaseRelativePath(args.Location);
+        if (isCurrent != wasCurrent)
+        {
+            if (isCurrent)
+            {
+                Owner.SetCurrentTabContent(typeof(TComponent));
+            }
+
+            if (sender == Nav) // False when triggered from OnParametersSet, when we don't need to call StateHasChanged manually anyway
+            {
+                StateHasChanged();
+            }
+        }
+    }
+}

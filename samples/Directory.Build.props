@@ -1,0 +1,9 @@
+<Project>
+    <PropertyGroup>
+        <SuppressNETCoreSdkPreviewMessage>true</SuppressNETCoreSdkPreviewMessage>
+        <RepoRoot>$(MSBuildThisFileDirectory)..\</RepoRoot>
+        <SharedSrcRoot>$(MSBuildThisFileDirectory)shared\</SharedSrcRoot>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <SmartComponentsPackageVersion>0.1.0-preview00008</SmartComponentsPackageVersion>
+    </PropertyGroup>
+</Project>
