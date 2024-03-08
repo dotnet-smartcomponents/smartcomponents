@@ -99,8 +99,8 @@ var candidates = embedder.EmbedRange(sports, x => x.Name);
 `LocalEmbedder` instances are:
 
  * **Thread-safe**. You can share a singleton instance across many threads.
- * **Disposable**. It holds unmanaged resources since it uses the [Onnx runtime](https://onnxruntime.ai/docs/get-started/with-csharp.html) internally to run the embeddings ML model. Remember to dispose it.
- * **Expensive to create**. Each instance has to load the ML model and set up a session with Onnx.
+ * **Disposable**. It holds unmanaged resources since it uses the [ONNX runtime](https://onnxruntime.ai/docs/get-started/with-csharp.html) internally to run the embeddings ML model. Remember to dispose it.
+ * **Expensive to create**. Each instance has to load the ML model and set up a session with ONNX.
    * Where possible, retain an instance as a singleton and reuse it. For example, register it as a DI service using `builder.Services.AddSingleton<LocalEmbedder>()`. In that case, you won't dispose it because the DI container will take care of that.
 
 ## Shrinking embeddings (quantization)
@@ -164,21 +164,36 @@ If you want to access the numerical values of the vector components (e.g., to st
 
 How to add an `Embedding` field to an entity, and then load and search through all the entities.
 
-## How it works (ONNX and the model)
+## Customizing the underlying embeddings model
 
-gte-tiny
+`LocalEmbedder` works by using the [ONNX runtime](https://onnxruntime.ai/docs/get-started/with-csharp.html), which can execute many different embeddings models on CPU or GPU (and often, CPU works faster for such small models).
 
-Remember to dispose
+The `SmartComponents.LocalEmbeddings` NuGet package does not actually contain any ML model, but it is configured to download a model when you first build your application. You can configure which model is downloaded.
 
-## Customizing the model
+The default model is [bge-micro-v2](https://huggingface.co/TaylorAI/bge-micro-v2), an MIT-licensed BERT embedding model, which has been quantized down to just 22.9 MiB, runs efficiently on CPU, and [scores well on benchmarks](https://huggingface.co/spaces/mteb/leaderboard) - outperforming many gigabyte-sized models.
 
-E.g., use bge-tiny or other bert-based 384-dimensional embedding models
+If you want to use a different model, specify the URL to its `.onnx` file and the vocabulary that should be used for tokenization. For example, to use [gte-tiny](https://huggingface.co/TaylorAI/gte-tiny), set the following in your `.csproj`:
+
+```xml
+<PropertyGroup>
+	<LocalEmbeddingsModelUrl>https://huggingface.co/TaylorAI/gte-tiny/resolve/main/onnx/model_quantized.onnx</LocalEmbeddingsModelUrl>
+	<LocalEmbeddingsVocabUrl>https://huggingface.co/TaylorAI/gte-tiny/resolve/main/vocab.txt</LocalEmbeddingsVocabUrl>
+</PropertyGroup>
+```
+
+**Requirements:** The model must be in ONNX format, accept BERT-tokenized text, accept inputs labelled `input_ids`, `attention_mask`, `token_type_ids`, and return an output tensor suitable for mean pooling. Many [sentence transformer](https://www.sbert.net/) models on HuggingFace follow these patterns. These are often 384-dimensional embeddings.
 
 ### Performance
 
 As a rough approximation:
 
- * Using `embedder.Embed` for a paragraph of text may take around 0.5ms-2ms of CPU time (shorter text is quicker).
+ * Using `embedder.Embed` for a few sentences may take around 0.5ms-1ms of CPU time (shorter text is quicker).
    * So, if you're computing embeddings over many thousands of strings (or very long strings), it's worth storing the computed embeddings in your existing database (e.g., each time a user saves changes to the corresponding text) instead of recomputing them all from scratch each time the app restarts.
  * An in-memory, single-threaded similarity search using `embedder.FindClosest` can search through 1,000 candidates in around 0.06ms, or 100,000 candidates in around 6ms (it's linear in the number of candidates, independent of the text length).
    * So, if you need to search through tens of millions of candidates, you should consider more advanced similarity search options such as using [Faiss](https://github.com/facebookresearch/faiss) or an external vector database.
+
+The overall goal for `SmartComponents.LocalEmbeddings` is to make semantic search easy to get started with. It may be sufficient for many applications. If you outgrow it:
+
+ * You can use an external service to compute embeddings, e.g., [OpenAI embeddings](https://platform.openai.com/docs/guides/embeddings) or [Azure OpenAI embeddings](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/embeddings)
+ * You can perform similarity search using [Faiss](https://github.com/facebookresearch/faiss) on your server (e.g., in .NET via [FaissSharp](https://gitlab.com/josetruyol/faisssharp), [faissmask](https://github.com/andyalm/faissmask), or [FaissNet](https://github.com/fwaris/FaissNet)). This allows you to set up much more powerful indexes that can be trained on your own data. However it is a lot more to learn and does not deal with computing the embeddings.
+ * Or instead of Faiss, you can use an external vector database such as [pgvector](https://github.com/pgvector/pgvector) or cloud-based vector database services.
