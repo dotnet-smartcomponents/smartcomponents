@@ -11,8 +11,9 @@
 
    * In your **server** project, install the NuGet package `SmartComponents.AspNetCore`.
 
-     * Command line: `dotnet add package SmartComponents.AspNetCore`
+     * Command line: `dotnet add package --prerelease SmartComponents.AspNetCore`
      * Visual Studio: Right-click your project name, choose *Manage NuGet packages...*, and then search for and install `SmartComponents.AspNetCore`.
+       * Note: Check the *Include prerelease* option if needed.
 
    * If you also have a **WebAssembly** project, install the NuGet package `SmartComponents.AspNetCore.Components` into it. This is not required if you only have a server project.
 
@@ -35,5 +36,5 @@
    You can now add the following inside your Blazor pages/components:
 
    * [SmartPaste](smart-paste.md)
-   * SmartTextArea
-   * SmartComboBox
+   * [SmartTextArea](smart-textarea.md)
+   * [SmartComboBox](smart-combobox.md)
