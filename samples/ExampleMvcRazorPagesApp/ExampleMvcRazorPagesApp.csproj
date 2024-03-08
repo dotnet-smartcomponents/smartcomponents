@@ -1,20 +1,20 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-    <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <LangVersion>latest</LangVersion>
-    </PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
 
-    <ItemGroup>
-        <ProjectReference Include="..\..\src\SmartComponents.AspNetCore\SmartComponents.AspNetCore.csproj" />
-        <ProjectReference Include="..\..\src\SmartComponents.Inference.OpenAI\SmartComponents.Inference.OpenAI.csproj" />
-        <ProjectReference Include="..\..\src\SmartComponents.LocalEmbeddings\SmartComponents.LocalEmbeddings.csproj" />
-    </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="SmartComponents.AspNetCore" />
+    <PackageReference Include="SmartComponents.Inference.OpenAI" />
+    <PackageReference Include="SmartComponents.LocalEmbeddings" />
+  </ItemGroup>
 
-    <ItemGroup>
-        <Compile Include="$(SharedSrcRoot)RepoSharedConfigUtil.cs" />
-    </ItemGroup>
+  <ItemGroup>
+    <Compile Include="$(SharedSrcRoot)RepoSharedConfigUtil.cs" />
+  </ItemGroup>
 
 </Project>
