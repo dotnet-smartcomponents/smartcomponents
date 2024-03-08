@@ -105,3 +105,43 @@ If you don't want to use `MapSmartComboBox`, you can implement an API endpoint m
  * It responds to POST requests at the URL you specified with `Url` or `url`
  * It accepts the parameters `inputValue`, `maxResults`, and `similarityThreshold` in the POST body (`application/x-www-form-urlencoded`)
  * It responds with a JSON-formatted array of strings
+
+## Styling the combobox
+
+Smart ComboBox renders as an HTML `<input>` element. You can style it by adding any CSS class names or other HTML attributes that apply to `<input>`.
+
+The suggestions dropdown is rendered as an HTML custom element with tag name `smart-combobox`, which starts hidden but becomes visible when suggestions are to be shown.
+
+So, the overall HTML structure looks as follows (plus many other attributes, including `role` and `aria-*` ones, omitted for clarity):
+
+```html
+<input value="Some value">
+<smart-combobox class="smartcombobox-suggestions">
+    <div class="smartcombobox-suggestion">Suggestion 1/div>
+    <div class="smartcombobox-suggestion selected">Suggestion 2 (selected)</div>
+    <div class="smartcombobox-suggestion">Suggestion 3</div>
+</smart-combobox>
+```
+
+You can target these CSS class names from your own `.css` files in order to customize the appearance.
+
+### Using scoped CSS
+
+If you are using scoped CSS (i.e., a `.razor.css` or `.cshtml.css` file), remember to use the `::deep` pseudoselector to match these class names, since they are being rendered in a child context. For example:
+
+```css
+::deep .smartcombobox-suggestions { /* ... */ }
+```
+
+## Customizing the suggestions
+
+Smart ComboBox also accepts the following parameters:
+
+ * **Maximum number of suggestions** (default: 10)
+   * Blazor: `<SmartComboBox MaxSuggestions="3" ... />`
+   * MVC/Razor Pages: `<smart-combobox max-suggestions="3" ... />`
+ * **Similarity threshold** (default: 0.5, range: 0 - 1). Matches with a lower similarity won't be shown. If you set this too high, you won't get any matches unless the text is an exact match.
+   * Blazor: `<SmartComboBox SimilarityThreshold="0.6f" ... />`
+   * MVC/Razor Pages: `<smart-combobox similarity-threshold="0.6f" ... />`
+
+Note that these parameters are simply instructions to the API endpoint. By default, `MapSmartComboBox` does honor these instructions, but if you implement an API endpoint manually, your code is free to honor or ignore them.
