@@ -2,9 +2,9 @@
 @using SmartComponents.Inference.OpenAI
 @inject IConfiguration Config
 
-@if (invalidConfigException is not null)
+@if (RepoSharedConfigUtil.GetConfigError(Config) is { } invalidConfigException)
 {
-    <div class="border-2 border-rose-500 p-4 bg-rose-200 rounded-lg shadow-lg">
+    <div class="border-2 border-rose-500 p-5 bg-rose-200 rounded-lg shadow-lg">
         <h4 class="font-semibold">Missing or invalid configuration</h4>
         <p class="mt-4 text-sm">
             Reason: <span class="font-semibold">@invalidConfigException.Message</span>
@@ -20,26 +20,4 @@
             and <a href="localembeddings">Local Embeddings</a> samples since they do not require any external language model backend.
         </p>
     </div>
-}
-
-@code {
-    private Exception? invalidConfigException;
-
-    protected override void OnInitialized()
-    {
-        var apiConfigType = typeof(OpenAIInferenceBackend).Assembly
-            .GetType("SmartComponents.Inference.OpenAI.ApiConfig", true)!;
-        try
-        {
-            _ = Activator.CreateInstance(apiConfigType, Config);
-        }
-        catch (TargetInvocationException ex) when (ex.InnerException is not null)
-        {
-            invalidConfigException = ex.InnerException;
-        }
-        catch (Exception ex)
-        {
-            invalidConfigException = ex;
-        }
-    }
 }

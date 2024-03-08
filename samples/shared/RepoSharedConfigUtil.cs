@@ -2,6 +2,7 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 
 using System.Reflection;
+using SmartComponents.Inference.OpenAI;
 
 public static class RepoSharedConfigUtil
 {
@@ -36,5 +37,25 @@ public static class RepoSharedConfigUtil
 
             dir = parent.FullName;
         }
+    }
+
+    public static Exception? GetConfigError(IConfiguration config)
+    {
+        var apiConfigType = typeof(OpenAIInferenceBackend).Assembly
+            .GetType("SmartComponents.Inference.OpenAI.ApiConfig", true)!;
+        try
+        {
+            _ = Activator.CreateInstance(apiConfigType, config);
+        }
+        catch (TargetInvocationException ex) when (ex.InnerException is not null)
+        {
+            return ex.InnerException;
+        }
+        catch (Exception ex)
+        {
+            return ex;
+        }
+
+        return null;
     }
 }
