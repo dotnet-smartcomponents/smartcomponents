@@ -76,3 +76,8 @@ h1:focus {
     .blazor-error-boundary::after {
         content: "An error has occurred."
     }
+
+main a {
+    color: rgb(37 99 235);
+    text-decoration: underline;
+}
