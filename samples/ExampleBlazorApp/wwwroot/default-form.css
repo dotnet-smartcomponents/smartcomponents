@@ -1,0 +1,183 @@
+﻿form.default-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-weight: 500;
+    color: rgb(17 24 39);
+}
+
+    form.default-form label.inline-checkbox {
+        display: flex;
+        align-items: center;
+    }
+
+form.default-form input, form.default-form textarea, form.default-form input, form.default-form select {
+    color: rgb(17 24 39);
+    padding: 0.625rem;
+    background-color: rgb(249 250 251);
+    border: 1px solid rgb(209 213 219);
+    border-radius: 0.5rem;
+    width: 100%;
+    display: block;
+    font-size: .925rem;
+}
+
+    form.default-form input:focus-visible, form.default-form textarea:focus-visible, form.default-form select:focus-visible {
+        outline: 2px solid #3b82f6;
+    }
+
+button.default-button {
+    border-radius: 0.5rem;
+    background-color: rgb(28 100 242);
+    color: white;
+    padding: 0.625rem 1.25rem;
+    font-weight: 500;
+    font-size: .875rem;
+    line-height: 1.25rem;
+    transition: background-color ease-out 0.15s, transform cubic-bezier(.19,.62,.15,.83) 0.1s, opacity ease-out 0.2s;
+    display: inline-flex;
+    gap: 0.4rem;
+    align-items: center;
+}
+
+    button.default-button:hover {
+        filter: brightness(1.2);
+    }
+
+    button.default-button:active {
+        filter: brightness(0.8);
+        transform: translateY(1px) scale(0.99);
+    }
+
+    button.default-button:disabled {
+        opacity: 0.5;
+    }
+
+button.secondary {
+    background-color: #555555;
+}
+
+form.default-form .floating-placeholder {
+    position: relative;
+}
+
+form.default-form .floating-placeholder input {
+    background: none;
+    padding: 1.5rem 0 0.5rem 0;
+    border: none;
+    border-radius: 0;
+    border-bottom: 2px solid rgb(180, 180, 180);
+    font-size: .875rem;
+    line-height: 1.25rem;
+}
+
+    form.default-form .floating-placeholder input:focus-visible {
+        outline: none;
+        border-color: #3b82f6;
+    }
+
+    form.default-form .floating-placeholder label {
+        position: absolute;
+        bottom: 0.625rem;
+        font-size: .875rem;
+        line-height: 1.25rem;
+        margin: 0;
+        padding: 0;
+        font-weight: 400;
+        color: rgb(0 0 0 / 60%);
+        transform-origin: bottom left;
+        transition: all 0.1s ease-out;
+        pointer-events: none;
+    }
+
+    form.default-form .floating-placeholder:focus-visible label {
+        color: rgb(37 99 235);
+    }
+
+    form.default-form .floating-placeholder:focus-visible label, form.default-form .floating-placeholder:not(:has(input:placeholder-shown)) label {
+        transform: translateY(-1.5rem) scale(0.8);
+        font-weight: 500;
+    }
+
+
+    form.default-form .floating-placeholder input.valid.modified {
+        outline: none;
+        border-color: green;
+    }
+
+        form.default-form .floating-placeholder:has(input.valid.modified) label {
+            color: green;
+        }
+
+    form.default-form .floating-placeholder input.invalid {
+        outline: none;
+        border-color: red;
+    }
+
+        form.default-form .floating-placeholder:has(input.invalid) label {
+            color: red;
+        }
+
+form.default-form .inline-radio {
+    flex-grow: 1;
+    padding: 0.625rem;
+    background-color: rgb(249 250 251);
+    border: 1px solid rgb(209 213 219);
+    font-size: .925rem;
+    text-align: center;
+    cursor: pointer;
+    position: relative;
+}
+
+    form.default-form .inline-radio:first-of-type {
+        border-top-left-radius: 0.625rem;
+        border-bottom-left-radius: 0.625rem;
+    }
+
+    form.default-form .inline-radio:last-of-type {
+        border-top-right-radius: 0.625rem;
+        border-bottom-right-radius: 0.625rem;
+    }
+
+    form.default-form .inline-radio:not(:first-of-type) {
+        margin-left: -1px;
+    }
+
+    form.default-form .inline-radio input[type=radio] {
+        opacity: 0;
+        position: absolute;
+        z-index: 1;
+        inset: 0;
+        pointer-events: none;
+    }
+
+    form.default-form .inline-radio:focus-within {
+        outline: 2px solid #3b82f6;
+        z-index: 1;
+    }
+
+    form.default-form .inline-radio:hover:not(:focus-within) {
+        color: #3b82f6;
+        background-color: #eee;
+    }
+
+    form.default-form .inline-radio:has(input[type=radio]:checked) {
+        background-color: #777;
+        color: white;
+    }
+
+form.default-form .bool-list label:has(input[type=checkbox]:checked) {
+    background-color: #777;
+    color: white;
+}
+
+form.default-form .bool-list input[type=checkbox] {
+    accent-color: white;
+}
+
+form.default-form .smartcombobox-suggestions {
+    border-radius: 0.3rem;
+    box-shadow: 0 2px 11px rgba(0,0,0,0.2);
+    margin-top: 1px;
+}

@@ -1,0 +1,23 @@
+﻿@page
+@model ExampleMvcRazorPagesApp.Pages.SmartPaste.IndexModel
+
+<h1>Smart Paste</h1>
+
+<form method="post">
+    <div>
+        <div>
+            <label for="name">Name</label>
+            <input type="text" id="name" placeholder="Your name" required />
+        </div>
+        <div>
+            <label for="age">Age</label>
+            <input type="number" id="age" placeholder="Your age" required />
+        </div>
+    </div>
+
+    <div>
+        <button type="submit">Save</button>
+        <button type="reset">Reset</button>
+        <smart-paste-button default-icon />
+    </div>
+</form>

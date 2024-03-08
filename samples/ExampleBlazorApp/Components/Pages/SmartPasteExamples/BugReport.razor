@@ -1,0 +1,97 @@
+﻿@using System.ComponentModel.DataAnnotations
+
+<form class="default-form rounded-md bg-gray-200 p-6 shadow-xl mb-12">
+    <div class="grid gap-6 md:grid-cols-4">
+        <div>
+            <label for="project">Project</label>
+            <select id="project" required>
+                <option value=""></option>
+                @for (var i = 0; i < projects.Length; i++)
+                {
+                    <option value="project_@i">@projects[i]</option>
+                }
+            </select>
+        </div>
+        <div>
+            <label for="item_type">Item type</label>
+            <select id="item_type" required>
+                <option value="">(select)</option>
+                <option value="bug">🐞 Bug</option>
+                <option value="feature_request">💡 Feature request</option>
+            </select>
+        </div>
+        <div>
+            <label>Severity/importance</label>
+            <div class="flex">
+                <label class="inline-radio">
+                    <input type="radio" name="severity" value="low" /> Low
+                </label>
+                <label class="inline-radio">
+                    <input type="radio" name="severity" value="medium" /> Medium
+                </label>
+                <label class="inline-radio">
+                    <input type="radio" name="severity" value="high" /> High
+                </label>
+                <label class="inline-radio">
+                    <input type="radio" name="severity" value="critical" /> Critical
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <label for="title" class="mt-4">Title</label>
+    <input type="text" id="title" placeholder="Name for the bug" required />
+
+    <label for="summary" class="mt-4">Summary</label>
+    <textarea id="summary" placeholder="A short summary of the issue and why it is important" required></textarea>
+
+    <label for="repro_steps" class="mt-4">Steps to reproduce (if bug)</label>
+    <textarea id="repro_steps" placeholder="Describe how to cause the bug" required></textarea>
+
+    <div class="flex gap-4 mt-8">
+        <button class="default-button" type="submit">Save</button>
+        <button class="default-button secondary mr-auto" type="reset">Reset</button>
+        <SmartPasteButton DefaultIcon class="default-button secondary" />
+    </div>
+</form>
+
+<h3 class="mb-4">Sample content</h3>
+
+<div class="grid gap-6 md:grid-cols-2">
+    <div class="sample bg-blue-50 p-4 rounded-md whitespace-pre-line h-48 overflow-y-auto" spellcheck="false" contenteditable>I found a small problem with the UI in the new v2 mobile app.
+
+        If you keep switching between the home and calendar tabs really fast, the UI can get out of sync. For example the "calendar" tab might be highlighted while the "home" content is still displayed.
+    </div>
+    <div class="sample bg-blue-50 p-4 rounded-md whitespace-pre-line h-48 overflow-y-auto" spellcheck="false" contenteditable>Hey, can you add a new "current CMS provider" feature to the customer data on the sales intranet? This has to be your top priority because we need it done by end of week.
+    </div>
+    <div class="sample bg-blue-50 p-4 rounded-md whitespace-pre-line h-48 overflow-y-auto" spellcheck="false" contenteditable>Customers using PowerEye Security v3.22 are advised to upgrade to v3.3 urgently due to a critical vulnerability in input parsing.
+    </div>
+</div>
+
+@code {
+    string[] projects =
+    [
+        "Sales intranet",
+        "Customer portal",
+        "Mobile app",
+        "Mobile app (v2 beta)",
+        "PowerEye Security",
+    ];
+
+    Component[] components =
+    [
+        new("backup", "Backup/restore"),
+        new("ui", "User interface"),
+        new("webhooks", "Web hooks"),
+        new("llm", "Language models"),
+        new("offline", "Offline support"),
+        new("windows", "Windows"),
+        new("mac", "Mac"),
+        new("linux", "Linux"),
+        new("build", "Build system"),
+        new("perf", "Performance"),
+        new("security", "Security"),
+    ];
+
+    record Component(string Id, string Name);
+}

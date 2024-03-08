@@ -1,0 +1,120 @@
+﻿@using System.ComponentModel.DataAnnotations
+@rendermode InteractiveServer
+
+<EditForm Model="@Address" class="default-form rounded-md bg-gray-200 py-8 px-10 border shadow-xl mb-12">
+    <DataAnnotationsValidator />
+
+    <div class="grid gap-12 md:grid-cols-2 mb-12">
+        <div>
+            <label>Recipient</label>
+
+            <div class="grid gap-6">
+                <div class="floating-placeholder">
+                    <InputText @bind-Value="Address.FirstName" placeholder=" " />
+                    <label>First name</label>
+                </div>
+                <div class="floating-placeholder">
+                    <InputText @bind-Value="Address.LastName" placeholder=" " />
+                    <label>Last name</label>
+                </div>
+                <div class="floating-placeholder">
+                    <input name="phone_number" placeholder=" " />
+                    <label>Phone number</label>
+                </div>
+            </div>
+        </div>
+        <div>
+            <label>Address</label>
+
+            <div class="grid gap-6 md:grid-cols-2">
+                <div class="floating-placeholder col-span-full">
+                    <InputText @bind-Value="Address.Line1" placeholder=" " />
+                    <label>Line 1</label>
+                </div>
+                <div class="floating-placeholder col-span-full">
+                    <InputText @bind-Value="Address.Line2" placeholder=" " />
+                    <label>Line 2</label>
+                </div>
+                <div class="floating-placeholder">
+                    <InputText @bind-Value="Address.City" placeholder=" " />
+                    <label>City</label>
+                </div>
+                <div class="floating-placeholder">
+                    <InputText @bind-Value="Address.State" placeholder=" " />
+                    <label>State</label>
+                </div>
+                <div class="floating-placeholder">
+                    <InputText @bind-Value="Address.Zip" placeholder=" " />
+                    <label>Zip</label>
+                </div>
+                <div class="floating-placeholder">
+                    <InputText @bind-Value="Address.Country" placeholder=" " />
+                    <label>Country</label>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex gap-4 justify-center">
+        <button class="default-button" type="submit">Submit</button>
+        <SmartPasteButton DefaultIcon class="default-button secondary" />
+    </div>
+</EditForm>
+
+<h3 class="mb-4">Sample content</h3>
+
+<div class="grid gap-6 md:grid-cols-3">
+    <div class="sample bg-blue-50 p-4 rounded-md whitespace-pre-line" spellcheck="false" contenteditable>Verónica Ortíz
+PROLONGACION 3A NO109
+EJIDO 20 DE NOVIEMBRE
+Tamaulipas
+Matamoros
+87394
+México
+
+Phone 768.312-5495
+    </div>
+    <div class="sample bg-blue-50 p-4 rounded-md whitespace-pre-line" spellcheck="false" contenteditable>Write to us at:
+        Kidwelly Town Council
+        Council Offices
+        Hillfield Villas
+        Kidwelly
+        Carmarthenshire
+        SA17 4UL
+
+        Telephone: 01554 890203
+        E-mail: towncouncil@kidwelly.gov.uk
+    </div>
+    <div class="sample bg-blue-50 p-4 rounded-md whitespace-pre-line" spellcheck="false" contenteditable>Dr. Akio Yamamoto works for Microsoft at Building 92, which is located at 15010 NE 36th St, Redmond, WA 98052.</div>
+</div>
+
+@code {
+    public AddressData Address { get; set; } = new();
+
+    public class AddressData
+    {
+        [Required]
+        public string? FirstName { get; set; }
+
+        [Required]
+        public string? LastName { get; set; }
+
+        public string? Phone { get; set; }
+
+        [Required]
+        public string? Line1 { get; set; }
+
+        public string? Line2 { get; set; }
+        
+        [Required]
+        public string? City { get; set; }
+
+        [Required]
+        public string? State { get; set; }
+
+        public string? Country { get; set; }
+        
+        [Required]
+        public string? Zip { get; set; }
+    }
+}

@@ -1,0 +1,29 @@
+﻿@typeparam TPageState where TPageState : new()
+@using System.Text.Json
+@using Microsoft.AspNetCore.DataProtection
+@inject IDataProtectionProvider DataProtectionProvider
+@code {
+    // A base class for components that round-trip arbitrary state though form posts.
+    // The state is JSON-serialized and data protected.
+    // And yes, this is basically ViewState, so be careful how much you put into it.
+
+    IDataProtector? pageStateProtector;
+
+    [SupplyParameterFromForm]
+    public string? PageStateProtectedJson { get; set; }
+
+    protected TPageState PageState { get; private set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        pageStateProtector = DataProtectionProvider!.CreateProtector(GetType().AssemblyQualifiedName!);
+        PageState = string.IsNullOrEmpty(PageStateProtectedJson)
+            ? new()
+            : JsonSerializer.Deserialize<TPageState>(pageStateProtector.Unprotect(PageStateProtectedJson))!;
+    }
+
+    protected RenderFragment HiddenPageState =>
+        @<input type="hidden"
+                name="@(nameof(PageStateProtectedJson))"
+                value="@(pageStateProtector!.Protect(JsonSerializer.Serialize(PageState)))" />;
+}
