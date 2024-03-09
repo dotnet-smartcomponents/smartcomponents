@@ -39,7 +39,7 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 // Prepare a list of expense categories and corresponding embeddings
-using var embedder = app.Services.GetRequiredService<LocalEmbedder>();
+var embedder = app.Services.GetRequiredService<LocalEmbedder>();
 var expenseCategories = embedder.EmbedRange(
     ["Groceries", "Utilities", "Rent", "Mortgage", "Car Payment", "Car Insurance", "Health Insurance", "Life Insurance", "Home Insurance", "Gas", "Public Transportation", "Dining Out", "Entertainment", "Travel", "Clothing", "Electronics", "Home Improvement", "Gifts", "Charity", "Education", "Childcare", "Pet Care", "Other"]);
 

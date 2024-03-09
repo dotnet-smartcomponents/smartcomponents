@@ -1,6 +1,4 @@
-﻿@using System.Reflection
-@using SmartComponents.Inference.OpenAI
-@inject IConfiguration Config
+﻿@inject IConfiguration Config
 
 @if (RepoSharedConfigUtil.GetConfigError(Config) is { } invalidConfigException)
 {
