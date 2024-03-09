@@ -213,9 +213,10 @@ int[] matchingDocIds = LocalEmbedder.FindClosest(
     maxResults: 5);
 
 // Load the complete entities for the matching documents
-var matchingDocuments = await dbContext.Documents
+var matchingDocs = await dbContext.Documents
     .Where(x => matchingDocIds.Contains(x.DocumentId))
-    .ToListAsync();
+    .ToDictionaryAsync(x => x.DocumentId);
+var matchingDocsInOrder = matchingDocIds.Select(x => matchingDocs[x]);
 ```
 
 In many cases you'll want to search over a large number of entities, e.g., tens of thousands of entities shared across all users. You would not want to retrieve them all from the database for every search (especially for each keystroke in a Smart ComboBox). Instead, it would make sense to have the server cache the list of ID/embedding pairs in memory. An `(int Id, EmbeddingI1 Embedding)` pair would be only 52 bytes, so holding a million of them would not be problematic (52 MiB). You could cache them in a [MemoryCache](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/memory?view=aspnetcore-8.0) that will expire at regular intervals, offering a tradeoff between database load and freshness of results.
