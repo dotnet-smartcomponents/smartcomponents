@@ -92,6 +92,10 @@ Alternatively, as shorthand, you can use `EmbedRange` to produce the tuples over
 
 ```cs
 var candidates = embedder.EmbedRange(sports, x => x.Name);
+Sport[] closest = LocalEmbedder.FindClosest(
+  embedder.Embed("ball game"),
+  candidates,
+  maxResults: 3);
 ```
 
 ## Reusing `LocalEmbedder` instances
@@ -105,9 +109,9 @@ var candidates = embedder.EmbedRange(sports, x => x.Name);
 
 ## Shrinking embeddings (quantization)
 
-By default, `SmartComponents.LocalEmbeddings` uses an embeddings model that returns 384-dimensional embedding vectors. Each component is represented by a single-precision `float` value (4 bytes), so the total memory required for raw, unquantized embeddings is 384*4 = 1536 bytes.
+By default, `SmartComponents.LocalEmbeddings` uses an embeddings model that returns 384-dimensional embedding vectors. Each component is represented by a single-precision `float` value (4 bytes), so the memory required for a raw, unquantized embedding is 384*4 = 1536 bytes.
 
-In many scenarios this is too much data. For a million embeddings, it would be 1.5 GiB, which is a lot to hold in memory, and a lot to add to your database.
+In many scenarios this is too much memory. For a million embeddings, it would be 1.5 GiB, which is a lot to hold in memory, and a lot to add to your database.
 
 A common technique for reducing the space needed to store vector data is *quantization*. There are many forms of quantization. `LocalEmbeddings` has three built-in storage formats for embeddings, offering different quantizations:
 
@@ -121,7 +125,7 @@ When evaluating similarity, the scores are computed directly from the quantized 
 
 You can only compute similarity within a type. That is, an `EmbeddingI1` can be compared to another `EmbeddingI1`, but not to an `EmbeddingF32`.
 
-To get an embedding in a chosen format, pass it as a generic type to `Embed` or `EmbedRange`. Examples:
+To get an embedding in a chosen format, pass it as a generic parameter to `Embed` or `EmbedRange`. Examples:
 
 ```cs
 // To produce a single embedding:
@@ -190,13 +194,13 @@ var doc = new Document
 
 You might want to recompute this embedding each time the user edits whatever text is used to compute it.
 
-Next, if you need to search over a small number of entities (e.g., just the records created by the current user), it may be sufficient to load those entities on demand and then run a similarity search:
+Next, if you need to search over a small number of entities (e.g., just the records created by the current user), it may be sufficient to load the data on demand and then run a similarity search:
 
 ```cs
 using var dbContext = new MyDbContext();
 
 // Load whatever subset of the data you want to consider
-// No need to fetch all the columns - only need an ID and the embedding
+// No need to fetch all the columns - only need ID/embedding pairs
 var currentUserDocs = await dbContext.Documents
     .Where(x => x.OwnerId == currentUserId)
     .Select(x => new { x.DocumentId, x.EmbeddingI8Buffer })
@@ -214,7 +218,7 @@ var matchingDocuments = await dbContext.Documents
     .ToListAsync();
 ```
 
-In many cases you'll want to search over a large number of entities, e.g., tens of thousands of entities shared across all users. You would not want to retrieve them all from the database for every search (especially for each keystroke in a Smart ComboBox). Instead, it would make sense to have the server cache the list of ID/embedding pairs in memory. An `(int Id, EmbeddingI1 Embedding)` pair would be only 52 bytes, so holding a million of them would not be problematic. You could cache them in a [MemoryCache](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/memory?view=aspnetcore-8.0) that will expire at regular intervals, offering a tradeoff between database load and freshness of results.
+In many cases you'll want to search over a large number of entities, e.g., tens of thousands of entities shared across all users. You would not want to retrieve them all from the database for every search (especially for each keystroke in a Smart ComboBox). Instead, it would make sense to have the server cache the list of ID/embedding pairs in memory. An `(int Id, EmbeddingI1 Embedding)` pair would be only 52 bytes, so holding a million of them would not be problematic (52 MiB). You could cache them in a [MemoryCache](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/memory?view=aspnetcore-8.0) that will expire at regular intervals, offering a tradeoff between database load and freshness of results.
 
 ## Customizing the underlying embeddings model
 
@@ -222,14 +226,14 @@ In many cases you'll want to search over a large number of entities, e.g., tens 
 
 The `SmartComponents.LocalEmbeddings` NuGet package does not actually contain any ML model, but it is configured to download a model when you first build your application. You can configure which model is downloaded.
 
-The default model is [bge-micro-v2](https://huggingface.co/TaylorAI/bge-micro-v2), an MIT-licensed BERT embedding model, which has been quantized down to just 22.9 MiB, runs efficiently on CPU, and [scores well on benchmarks](https://huggingface.co/spaces/mteb/leaderboard) - outperforming many gigabyte-sized models.
+The default model that gets downloaded on build is [bge-micro-v2](https://huggingface.co/TaylorAI/bge-micro-v2), an MIT-licensed BERT embedding model, which has been quantized down to just 22.9 MiB, runs efficiently on CPU, and [scores well on benchmarks](https://huggingface.co/spaces/mteb/leaderboard) - outperforming many gigabyte-sized models.
 
 If you want to use a different model, specify the URL to its `.onnx` file and the vocabulary that should be used for tokenization. For example, to use [gte-tiny](https://huggingface.co/TaylorAI/gte-tiny), set the following in your `.csproj`:
 
 ```xml
 <PropertyGroup>
-	<LocalEmbeddingsModelUrl>https://huggingface.co/TaylorAI/gte-tiny/resolve/main/onnx/model_quantized.onnx</LocalEmbeddingsModelUrl>
-	<LocalEmbeddingsVocabUrl>https://huggingface.co/TaylorAI/gte-tiny/resolve/main/vocab.txt</LocalEmbeddingsVocabUrl>
+  <LocalEmbeddingsModelUrl>https://huggingface.co/TaylorAI/gte-tiny/resolve/main/onnx/model_quantized.onnx</LocalEmbeddingsModelUrl>
+  <LocalEmbeddingsVocabUrl>https://huggingface.co/TaylorAI/gte-tiny/resolve/main/vocab.txt</LocalEmbeddingsVocabUrl>
 </PropertyGroup>
 ```
 
@@ -237,15 +241,18 @@ If you want to use a different model, specify the URL to its `.onnx` file and th
 
 ### Performance
 
-As a rough approximation:
+As a rough approximation, based on an Intel i9-11950H CPU:
 
- * Using `embedder.Embed` for a few sentences may take around 0.5ms-1ms of CPU time (shorter text is quicker).
+ * Using `embedder.Embed` for a 50-character string may take around 0.5ms of CPU time (shorter text is quicker).
    * So, if you're computing embeddings over many thousands of strings (or very long strings), it's worth storing the computed embeddings in your existing database (e.g., each time a user saves changes to the corresponding text) instead of recomputing them all from scratch each time the app restarts.
- * An in-memory, single-threaded similarity search using `embedder.FindClosest` can search through 1,000 candidates in around 0.06ms, or 100,000 candidates in around 6ms (it's linear in the number of candidates, independent of the text length).
+ * An in-memory, single-threaded similarity search using `embedder.FindClosest` with `EmbeddingF32` can search through 1,000 candidates in around 0.06ms, or 100,000 candidates in around 6ms (it's linear in the number of candidates, independent of the text length). This goes down to ~2.8ms if you use `EmbeddingI1`.
    * So, if you need to search through tens of millions of candidates, you should consider more advanced similarity search options such as using [Faiss](https://github.com/facebookresearch/faiss) or an external vector database.
+   * From benchmarks, `LocalEmbedder.FindClosest` performance is equivalent to [Faiss using its `Flat` index type](https://github.com/facebookresearch/faiss/wiki/Faiss-indexes). You'll only get better speeds from Faiss using its more powerful indexes such as HNSW or IVF, which requires training on your data.
 
-The overall goal for `SmartComponents.LocalEmbeddings` is to make semantic search easy to get started with. It may be sufficient for many applications. If you outgrow it:
+#### Recommendations for scaling up
+
+The overall goal for `SmartComponents.LocalEmbeddings` is to make semantic search easy to get started with. It may be sufficient for many applications. But if you outgrow it:
 
  * You can use an external service to compute embeddings, e.g., [OpenAI embeddings](https://platform.openai.com/docs/guides/embeddings) or [Azure OpenAI embeddings](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/embeddings)
- * You can perform similarity search using [Faiss](https://github.com/facebookresearch/faiss) on your server (e.g., in .NET via [FaissSharp](https://gitlab.com/josetruyol/faisssharp), [faissmask](https://github.com/andyalm/faissmask), or [FaissNet](https://github.com/fwaris/FaissNet)). This allows you to set up much more powerful indexes that can be trained on your own data. However it is a lot more to learn and does not deal with computing the embeddings.
+ * You can perform similarity search using [Faiss](https://github.com/facebookresearch/faiss) on your server (e.g., in .NET via [FaissSharp](https://gitlab.com/josetruyol/faisssharp), [faissmask](https://github.com/andyalm/faissmask), or [FaissNet](https://github.com/fwaris/FaissNet)). This allows you to set up much more powerful indexes that can be trained on your own data. It's a lot more to learn.
  * Or instead of Faiss, you can use an external vector database such as [pgvector](https://github.com/pgvector/pgvector) or cloud-based vector database services.
