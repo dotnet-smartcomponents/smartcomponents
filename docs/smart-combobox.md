@@ -16,7 +16,7 @@ Traditional combo boxes suggest values only based on exact substring matches. Sm
 
    A bug tracking system might allow users to attach labels/tags to issues, selecting either an existing label or creating a new label. In the "Label" field, a user types "**slow**", then notices that the Smart ComboBox is offering the suggestions "**Performance**" and "**Usability**", since those labels already exist.
    
-   This fixes a common problem of people creating multiple labels for the same concept because they don't realise a suitable label already exists.
+   This fixes a common problem of people creating multiple labels for the same concept because they don't realize a suitable label already exists.
 
 ## Adding Smart ComboBox in Blazor
 
