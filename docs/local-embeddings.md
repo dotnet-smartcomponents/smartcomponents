@@ -162,7 +162,59 @@ If you want to access the numerical values of the vector components (e.g., to st
 
 ## Storing and querying using Entity Framework
 
-How to add an `Embedding` field to an entity, and then load and search through all the entities.
+With Entity Framework, you can add a `byte[]` property onto an entity class to hold the raw data for an embedding. For example:
+
+```cs
+public class Document
+{
+    public int DocumentId { get; set; }
+    public int OwnerId { get; set; }
+    public required string Title { get; set; }
+    public required string Body { get; set; }
+
+    // It's helpful to use the property name to keep track of which
+    // format of embedding is being used
+    public required byte[] EmbeddingI8Buffer { get; set; }
+}
+```
+
+You can populate the `byte[]` property using `ToArray()`:
+
+```cs
+var doc = new Document
+{
+   // ... set other properties here ...
+   EmbeddingI8Buffer = embedder.Embed<EmbeddingI8>(title).Buffer.ToArray()
+};
+```
+
+You might want to recompute this embedding each time the user edits whatever text is used to compute it.
+
+Next, if you need to search over a small number of entities (e.g., just the records created by the current user), it may be sufficient to load those entities on demand and then run a similarity search:
+
+```cs
+using var dbContext = new MyDbContext();
+
+// Load whatever subset of the data you want to consider
+// No need to fetch all the columns - only need an ID and the embedding
+var currentUserDocs = await dbContext.Documents
+    .Where(x => x.OwnerId == currentUserId)
+    .Select(x => new { x.DocumentId, x.EmbeddingI8Buffer })
+    .ToListAsync();
+
+// Perform the similarity search
+int[] matchingDocIds = LocalEmbedder.FindClosest(
+    embedder.Embed<EmbeddingI8>(searchText),
+    currentUserDocs.Select(x => (x.DocumentId, new EmbeddingI8(x.EmbeddingI8Buffer))),
+    maxResults: 5);
+
+// Load the complete entities for the matching documents
+var matchingDocuments = await dbContext.Documents
+    .Where(x => matchingDocIds.Contains(x.DocumentId))
+    .ToListAsync();
+```
+
+In many cases you'll want to search over a large number of entities, e.g., tens of thousands of entities shared across all users. You would not want to retrieve them all from the database for every search (especially for each keystroke in a Smart ComboBox). Instead, it would make sense to have the server cache the list of ID/embedding pairs in memory. An `(int Id, EmbeddingI1 Embedding)` pair would be only 52 bytes, so holding a million of them would not be problematic. You could cache them in a [MemoryCache](https://learn.microsoft.com/en-us/aspnet/core/performance/caching/memory?view=aspnetcore-8.0) that will expire at regular intervals, offering a tradeoff between database load and freshness of results.
 
 ## Customizing the underlying embeddings model
 
