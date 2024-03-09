@@ -114,7 +114,7 @@ Smart ComboBox renders as an HTML `<input>` element. You can style it by adding 
 
 The suggestions dropdown is rendered as an HTML custom element with tag name `smart-combobox`, which starts hidden but becomes visible when suggestions are to be shown.
 
-So, the overall HTML structure looks as follows (plus many other attributes, including `role` and `aria-*` ones, omitted for clarity):
+So at runtime, rendered HTML structure looks as follows (plus many other attributes, including `role` and `aria-*` ones, omitted for clarity):
 
 ```html
 <input value="Some value">
