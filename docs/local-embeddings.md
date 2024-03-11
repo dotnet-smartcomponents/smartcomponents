@@ -246,7 +246,7 @@ As a rough approximation, based on an Intel i9-11950H CPU:
 
  * Using `embedder.Embed` for a 50-character string may take around 0.5ms of CPU time (shorter text is quicker).
    * So, if you're computing embeddings over many thousands of strings (or very long strings), it's worth storing the computed embeddings in your existing database (e.g., each time a user saves changes to the corresponding text) instead of recomputing them all from scratch each time the app restarts.
- * An in-memory, single-threaded similarity search using `embedder.FindClosest` with `EmbeddingF32` can search through 1,000 candidates in around 0.06ms, or 100,000 candidates in around 6ms (it's linear in the number of candidates, independent of the text length). This goes down to ~2.8ms if you use `EmbeddingI1`.
+ * An in-memory, single-threaded similarity search using `LocalEmbedder.FindClosest` with `EmbeddingF32` can search through 1,000 candidates in around 0.06ms, or 100,000 candidates in around 6ms (it's linear in the number of candidates, independent of the text length). This goes down to ~2.8ms if you use `EmbeddingI1`.
    * So, if you need to search through tens of millions of candidates, you should consider more advanced similarity search options such as using [Faiss](https://github.com/facebookresearch/faiss) or an external vector database.
    * From benchmarks, `LocalEmbedder.FindClosest` performance is equivalent to [Faiss using its `Flat` index type](https://github.com/facebookresearch/faiss/wiki/Faiss-indexes). You'll only get better speeds from Faiss using its more powerful indexes such as HNSW or IVF, which requires training on your data.
 
