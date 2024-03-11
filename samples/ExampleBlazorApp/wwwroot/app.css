@@ -77,7 +77,7 @@ h1:focus {
         content: "An error has occurred."
     }
 
-main a {
+main p a {
     color: rgb(37 99 235);
     text-decoration: underline;
 }
