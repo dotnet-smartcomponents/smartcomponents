@@ -1,6 +1,6 @@
 # Getting started with Smart Components in MVC / Razor Pages
 
-1. **Create a new ASP.NET Core Web App project (.NET 8) or use an existing one.**
+1. **Create a new ASP.NET Core Web App project or use an existing one (.NET 6 or later).**
 
    * Command line: Run `dotnet new mvc` or `dotnet new razor`
    * Visual Studio: Select *File*->*New*->*Project...* then choose *ASP.NET Core Web App (Model-View-Controller or Razor pages)*

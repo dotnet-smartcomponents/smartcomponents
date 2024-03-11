@@ -1,6 +1,6 @@
 # Getting started with Smart Components in Blazor
 
-1. **Create a new .NET 8 Blazor project or use an existing one.**
+1. **Create a new Blazor project or use an existing one (.NET 6 or later).**
 
    * Command line: Run `dotnet new blazor`
    * Visual Studio: Select *File*->*New*->*Project...* then choose *Blazor Web App*
