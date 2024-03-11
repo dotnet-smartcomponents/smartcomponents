@@ -1,19 +1,70 @@
 # Smart Components
 
-**Complete, prebuilt AI features for .NET apps.** (Experimental)
+Smart Components lets you **add genuinely useful AI-powered features to your .NET apps quickly and with low risk.** 
 
-Smart Components makes it easier and quicker to add intelligent features to your apps. Just add ready-made UI components/controls to upgrade your existing application.
+You don't have to spend weeks of dev time redesigning your UX or researching machine learning and prompt engineering. Smart Components are prebuilt end-to-end AI features that you can drop into your existing UIs to upgrade them, truly making your app more productive for your end users.
 
-This is an experiment from the .NET app frameworks team, and is initially available for **ASP.NET Core 6.0 and later** with:
+This is an experiment from the .NET app frameworks team, and is initially available for **ASP.NET Core 6.0 and later** with either:
 
  * **Blazor** (see: [Getting started with Smart Controls and Blazor](docs/getting-started-blazor.md))
  * **MVC / Razor Pages** (see: [Getting started with Smart Controls and MVC/Razor Pages](docs/getting-started-mvc-razor-pages.md))
 
-We may add support for other UI tech later, depending on feedback.
+We may add support for other UI tech (e.g., native apps) later, depending on feedback.
 
 ## What's included
 
+The set of components and features may expand over time. Currently, Smart Components includes:
 
+### Smart Paste
+
+A button that fills out forms automatically using data from the user's clipboard. You can use this with any existing form in your web app. This helps users add data from external sources without re-typing.
+
+Learn more: [Smart Paste docs](docs/smart-paste.md)
+
+### Smart TextArea
+
+An intelligent upgrade to the traditional textarea. You can configure how it should autocomplete whole sentences using your own preferred tone, policies, URLs, and so on. This helps users type faster and not have to remember URLs etc.
+
+Learn more: [Smart TextArea docs](docs/smart-textarea.md)
+
+### Smart ComboBox
+
+Upgrades the traditional combobox by making suggestions based on semantic matching. This helps users find what they're looking for.
+
+Learn more: [Smart ComboBox docs](docs/smart-combobox.md)
+
+### Local Embeddings
+
+Computes the level of semantic similarity between two natural language strings, or finds the closest match from a set of candidates. **This runs entirely locally on your server's CPU**, so doesn't need any external AI service.
+
+Example: evaluating the semantic similarity between two strings
+
+```cs
+var article1 = embedder.Embed("Vacation allowance policy");
+var article2 = embedder.Embed("Returning a company vehicle");
+var article3 = embedder.Embed("How to get your boss fired");
+
+var searchTerm = embedder.Embed("car");
+Console.WriteLine(searchTerm.Similarity(article1)); // Outputs: 0.41
+Console.WriteLine(searchTerm.Similarity(article2)); // Outputs: 0.70
+Console.WriteLine(searchTerm.Similarity(article3)); // Outputs: 0.38
+```
+
+Example: finding closest matches
+
+```cs
+// Find closest matches to "ball game"
+var candidates = embedder.EmbedRange(["Soccer", "Tennis", "Swimming", "Horse riding", "Golf", "Gymnastics"]);
+
+var closest = LocalEmbedder.FindClosest(
+    embedder.Embed("ball game"), candidates, maxResults: 3);
+
+Console.WriteLine(string.Join(", ", closest)); // "Soccer, Golf, Tennis"
+```
+
+Unlike the others, this isn't a prebuilt end-to-end UI feature; it's a general capability you can use to power your own features, such as search or [retrieval-augmented generation (RAG)](https://en.wikipedia.org/wiki/Prompt_engineering#Retrieval-augmented_generation).
+
+Learn more: [Local Embeddings docs](docs/local-embeddings.md)
 
 ## Feedback and support
 
