@@ -72,6 +72,33 @@ Unlike the others, this isn't a prebuilt end-to-end UI feature; it's a general c
 
 Learn more: [Local Embeddings docs](docs/local-embeddings.md)
 
+## Running the samples
+
+1. If you don't already have it, install a current [.NET SDK for Windows, Linux, or Mac](https://dotnet.microsoft.com/download).
+
+1. Clone this repo
+
+   ```
+   git clone https://github.com/dotnet-smartcomponents/smartcomponents.git
+   cd smartcomponents
+   ```
+
+1. If you want to run the Smart Paste or Smart TextArea samples, edit the `RepoSharedConfig.json` file at the root of the solution to add your API key. See [How to configure an OpenAI backend](docs/configure-openai-backend.md).
+
+   You can skip this if you only want to run the Smart ComboBox or Local Embeddings samples, since they run entirely locally.
+
+1. Run it
+
+   ```
+   cd samples/ExampleBlazorApp
+   dotnet run
+   ```
+
+Once you're ready to add Smart Components to your own app, see:
+
+ * [Getting started with Smart Controls and Blazor](docs/getting-started-blazor.md)
+ * [Getting started with Smart Controls and MVC/Razor Pages](docs/getting-started-mvc-razor-pages.md)
+
 ## Feedback and support
 
 The purpose of this experiment is to assess whether/how the .NET community would want to use prebuilt UI components for AI features.
