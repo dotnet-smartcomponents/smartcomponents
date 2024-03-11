@@ -35,6 +35,8 @@ Learn more: [Smart TextArea docs](docs/smart-textarea.md)
 
 Upgrades the traditional combobox by making suggestions based on semantic matching. This helps users find what they're looking for.
 
+![Screen capture of Smart ComboBox feature](docs/images/smart-combobox-expenses.gif)
+
 Learn more: [Smart ComboBox docs](docs/smart-combobox.md)
 
 ### Local Embeddings

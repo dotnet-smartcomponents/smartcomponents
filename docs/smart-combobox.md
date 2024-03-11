@@ -4,6 +4,8 @@ A *combo box* is a UI input element that allows users to type a value *and* to s
 
 Traditional combo boxes suggest values only based on exact substring matches. Smart ComboBox upgrades this by suggesting semantic matches (i.e., options with the most closely related meanings). This is much more helpful for users who don't know/remember the exact predefined string they are looking for.
 
+![Screen capture of Smart ComboBox feature](images/smart-combobox-expenses.gif)
+
 ### Example use cases
 
  * **Accounting category**
