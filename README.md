@@ -19,6 +19,8 @@ The set of components and features may expand over time. Currently, Smart Compon
 
 A button that fills out forms automatically using data from the user's clipboard. You can use this with any existing form in your web app. This helps users add data from external sources without re-typing.
 
+![Screen capture of Smart Paste feature](docs/images/smart-paste-address.gif)
+
 Learn more: [Smart Paste docs](docs/smart-paste.md)
 
 ### Smart TextArea

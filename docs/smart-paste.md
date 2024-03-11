@@ -2,6 +2,8 @@
 
 Smart Paste is an intelligent app feature that fills out forms automatically using data from the user's clipboard. You can use this with any existing form in your web app.
 
+![Screen capture of Smart Paste feature](images/smart-paste-address.gif)
+
 ### Example use cases
 
  * **Mailing address form**
