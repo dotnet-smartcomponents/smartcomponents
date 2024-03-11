@@ -76,7 +76,7 @@ Learn more: [Local Embeddings docs](docs/local-embeddings.md)
 
 The purpose of this experiment is to assess whether/how the .NET community would want to use prebuilt UI components for AI features.
 
-**Please give us your feedback, even if it's just to say "*Yes I want this*" or "*I won't use this because...*"**. 
+**Please give us your feedback, even if it's just to say "*Yes I want this*" or "*I won't use this because...*"**. To give feedback, [post an issue here](https://github.com/dotnet-smartcomponents/smartcomponents/issues).
 
 Smart Components isn't yet an officially supported part of .NET. Whether or not it graduates to full support depends on community feedback and usage levels.
 
