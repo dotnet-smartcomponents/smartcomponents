@@ -27,6 +27,8 @@ Learn more: [Smart Paste docs](docs/smart-paste.md)
 
 An intelligent upgrade to the traditional textarea. You can configure how it should autocomplete whole sentences using your own preferred tone, policies, URLs, and so on. This helps users type faster and not have to remember URLs etc.
 
+![Screen capture of Smart TextArea feature](docs/images/smart-textarea-hr.gif)
+
 Learn more: [Smart TextArea docs](docs/smart-textarea.md)
 
 ### Smart ComboBox

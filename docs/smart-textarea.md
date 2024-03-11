@@ -2,6 +2,8 @@
 
 Smart TextArea is an AI upgrade to the traditional textarea. It provides suggested autocompletions to whole sentences based on its configuration and what the user is currently typing.
 
+![Screen capture of Smart TextArea feature](images/smart-textarea-hr.gif)
+
 ### Example use cases
 
  * **Customer service**
