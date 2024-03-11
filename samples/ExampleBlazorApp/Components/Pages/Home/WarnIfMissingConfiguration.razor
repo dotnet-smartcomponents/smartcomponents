@@ -2,7 +2,7 @@
 
 @if (RepoSharedConfigUtil.GetConfigError(Config) is { } invalidConfigException)
 {
-    <div class="border-2 border-rose-500 p-5 bg-rose-200 rounded-lg shadow-lg">
+    <div class="border-2 border-rose-500 p-5 bg-rose-200 rounded-lg shadow-lg mb-8">
         <h4 class="font-semibold">Missing or invalid configuration</h4>
         <p class="mt-4 text-sm">
             Reason: <span class="font-semibold">@invalidConfigException.Message</span>

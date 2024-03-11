@@ -1,10 +1,10 @@
 # Smart Components
 
-Smart Components lets you **add genuinely useful AI-powered features to your .NET apps quickly and with low risk.** 
+Smart Components lets you **add genuinely useful AI-powered features to your .NET apps quickly, easily, and without risking wasted effort.** 
 
 You don't have to spend weeks of dev time redesigning your UX or researching machine learning and prompt engineering. Smart Components are prebuilt end-to-end AI features that you can drop into your existing UIs to upgrade them, truly making your app more productive for your end users.
 
-This is an experiment from the .NET app frameworks team, and is initially available for **ASP.NET Core 6.0 and later** with either:
+This is an experiment from the .NET team, and is initially available for **ASP.NET Core 6.0 and later** with either:
 
  * **Blazor** (see: [Getting started with Smart Controls and Blazor](docs/getting-started-blazor.md))
  * **MVC / Razor Pages** (see: [Getting started with Smart Controls and MVC/Razor Pages](docs/getting-started-mvc-razor-pages.md))
