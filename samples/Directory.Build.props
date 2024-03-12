@@ -4,6 +4,6 @@
         <RepoRoot>$(MSBuildThisFileDirectory)..\</RepoRoot>
         <SharedSrcRoot>$(MSBuildThisFileDirectory)shared\</SharedSrcRoot>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
-        <SmartComponentsPackageVersion>0.1.0-preview00008</SmartComponentsPackageVersion>
+        <SmartComponentsPackageVersion>0.1.0-preview10139</SmartComponentsPackageVersion>
     </PropertyGroup>
 </Project>
