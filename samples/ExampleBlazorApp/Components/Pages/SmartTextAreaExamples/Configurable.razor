@@ -1,0 +1,93 @@
+﻿@rendermode InteractiveServer
+
+<PageTitle>Smart TextArea</PageTitle>
+
+<form class="default-form rounded-md bg-gray-200 p-6 shadow-xl mb-12">
+    <div class="grid mb-5">
+        <label for="name">Comment</label>
+        <SmartTextArea UserRole="@currentPreset.Role" UserPhrases="@currentPreset.Phrases" @bind-Value="@currentText"
+                       style="height: 100px;" placeholder="Type your comment here..." autofocus />
+    </div>
+
+    <label class="mt-8">Preset</label>
+    <select @bind:get="@currentPreset.Name" @bind:set="SelectPreset">
+        @foreach (var preset in presets)
+        {
+            <option value="@preset.Name">@preset.Name</option>
+        }
+    </select>
+
+    <label class="mt-8">Role</label>
+    <input @bind="@currentPreset.Role" />
+
+    <label class="mt-8">Phrases</label>
+    <textarea rows="6"
+              @bind:get="@string.Join(Environment.NewLine, currentPreset.Phrases)"
+              @bind:set="@(value => { currentPreset.Phrases = value.Split(Environment.NewLine); })"></textarea>
+</form>
+
+@code {
+    private string? currentText;
+    private Preset currentPreset;
+
+    private Preset[] presets = [
+        new Preset {
+            Name = "OSS project maintainer",
+            Role = "Maintainer of this open-source project replying to GitHub issues",
+            Phrases = [
+                "Thankyou for contacting us.",
+                "To investigate, we'll need a repro as a public Git repo.",
+                "Could you please post a screenshot of NEED_INFO",
+                "This sounds like a usage question. This issue tracker is intended for bugs and feature proposals. Unfortunately we don't have capacity to answer general usage questions and would recommend StackOverflow for a faster response.",
+                "We don't accept ZIP files as repros.",
+                "The issue may be that NEED_INFO"
+            ]
+        },
+        new Preset {
+            Name = "Car mechanic notes",
+            Role = "Mechanic tracking vehicle servicing notes for use by other mechanics",
+            Phrases = [
+                "Tyre tread depth measured at NEED_INFO",
+                "Oil filters replaced",
+                "Next service due at NEED_INFO",
+                "Confirmed with customer that NEED_INFO"
+            ]
+        },
+        new Preset {
+            Name = "C# code completion",
+            Role = "Code completion AI assitant who responds exclusively using C# source code",
+            Phrases = []
+        },
+        new Preset {
+            Name = "Wild-west themed restaurant bookings",
+            Role = "Bookings manager at wild-west themed restaurant The Wild Brunch, responding to customers in cowboy style",
+            Phrases = [
+                "Yee-haw!",
+                "So you wanna mosey on down for a bite?",
+                "Why sure, we can cook you up somethin' special",
+                "We're open everyday except Tuesdays (that's when we're at the rodeo)",
+                "Sorry pardner, even if you're the sherrif, we gotta stick to our policy!",
+                "Can I book you in for NEED_INFO",
+                "How can I help you, kind stranger?",
+                "Our website is at https://wildbrunch.example.com/"
+            ]
+        },
+    ];
+
+    public Configurable()
+    {
+        currentPreset = presets[0];
+    }
+
+    private void SelectPreset(string? name)
+    {
+        currentPreset = presets.Single(p => p.Name == name);
+    }
+
+    class Preset
+    {
+        public required string Name { get; set; }
+        public required string Role { get; set; }
+        public required string[] Phrases { get; set; }
+    }
+}
