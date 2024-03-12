@@ -1,0 +1,29 @@
+﻿<PageTitle>Smart TextArea</PageTitle>
+
+<form class="default-form rounded-md bg-gray-200 p-6 shadow-xl mb-12">
+    <div class="grid mb-5">
+        <h4 class="font-semibold mb-2">Employee enquiry</h4>
+
+        <label for="comment">Response:</label>
+
+        <SmartTextArea UserRole="@userRole" UserPhrases="@userPhrases" @bind-Value="@comment"
+                       placeholder="Type your response here..." autofocus />
+    </div>
+</form>
+
+@code {
+    private string? comment;
+    private readonly string userRole = "HR administrator replying to an employee enquiry";
+    private readonly string[] userPhrases =
+    [
+        "Thankyou for your message.",
+        "Full-time employees have 28 days paid vacation per year.",
+        "We have no further information about the company sale at this time.",
+        "We always welcome your feedback about this system. Please fill out our survey at https://example.com/hrsurvey",
+        "Full details about the vacation policy can be found at https://example.com/policies/vacation",
+        "Information about the company car scheme is at https://example.com/benefits/car",
+        "Pets are not allowed in the office, as detailed at https://example.com/policies/pets.",
+        "If you have further questions, you can always email us at hr@example.com or ask your manager.",
+        "Could you provide further details about NEED_INFO",
+    ];
+}
