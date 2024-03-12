@@ -6,8 +6,12 @@
 
         <label for="comment">Response:</label>
 
+        <textarea @bind="@comment" placeholder="Type your response here..." autofocus />
+
+        <!--
         <SmartTextArea UserRole="@userRole" UserPhrases="@userPhrases" @bind-Value="@comment"
                        placeholder="Type your response here..." autofocus />
+        -->
     </div>
 </form>
 
