@@ -27,12 +27,6 @@
    @addTagHelper *, SmartComponents.AspNetCore
    ```
 
-   c. In your layout file (by default, `_Layout.cshtml` in `Views/Shared` or `Pages/Shared`), just before the closing `</body>` tag, add the following which will load the required JavaScript code:
-
-   ```html
-   <smart-components-script />
-   ```
-
 1. **Configure the OpenAI backend** (if needed)
 
    If you will be using either `smart-paste-button` or `smart-textarea`, you need to provide access to a language model backend. See: [Configure the OpenAI backend](configure-openai-backend.md).
