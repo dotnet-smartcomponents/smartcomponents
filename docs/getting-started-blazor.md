@@ -25,6 +25,10 @@
    builder.Services.AddSmartComponents();
    ```
 
+   If you're using Blazor WebAssembly (including via `@rendermode`):
+   
+     * In your main `_Layout.razor`, add `<AntiforgeryToken />` anywhere. This is invisible but needed to work around a [current issue](https://github.com/dotnet/aspnetcore/issues/54533).
+
 1. **Configure the OpenAI backend** (if needed)
 
    If you will be using either `SmartPaste` or `SmartTextArea`, you need to provide access to a language model backend. See: [Configure the OpenAI backend](configure-openai-backend.md).
