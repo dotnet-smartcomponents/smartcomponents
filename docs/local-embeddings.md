@@ -240,7 +240,7 @@ If you want to use a different model, specify the URL to its `.onnx` file and th
 
 **Requirements:** The model must be in ONNX format, accept BERT-tokenized text, accept inputs labelled `input_ids`, `attention_mask`, `token_type_ids`, and return an output tensor suitable for mean pooling. Many [sentence transformer](https://www.sbert.net/) models on HuggingFace follow these patterns. These are often 384-dimensional embeddings.
 
-### Performance
+## Performance
 
 As a rough approximation, based on an Intel i9-11950H CPU:
 
@@ -257,3 +257,23 @@ The overall goal for `SmartComponents.LocalEmbeddings` is to make semantic searc
  * You can use an external service to compute embeddings, e.g., [OpenAI embeddings](https://platform.openai.com/docs/guides/embeddings) or [Azure OpenAI embeddings](https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/embeddings)
  * You can perform similarity search using [Faiss](https://github.com/facebookresearch/faiss) on your server (e.g., in .NET via [FaissSharp](https://gitlab.com/josetruyol/faisssharp), [faissmask](https://github.com/andyalm/faissmask), or [FaissNet](https://github.com/fwaris/FaissNet)). This allows you to set up much more powerful indexes that can be trained on your own data. It's a lot more to learn.
  * Or instead of Faiss, you can use an external vector database such as [pgvector](https://github.com/pgvector/pgvector) or cloud-based vector database services.
+
+## Usage with Semantic Kernel
+
+If you want to use this ONNX-based local embeddings generator with [Semantic Kernel](https://learn.microsoft.com/en-us/semantic-kernel/overview/), the only package you need to reference is `SmartComponents.LocalEmbeddings.SemanticKernel`.
+
+Once you've referenced that package, you can use `AddLocalTextEmbeddingGeneration` to add a local embeddings generator to your `Kernel`:
+
+```cs
+var builder = Kernel.CreateBuilder();
+builder.AddLocalTextEmbeddingGeneration();
+```
+
+... and then you can generate embeddings in the usual way for Semantic Kernel:
+
+```cs
+var kernel = builder.Build();
+var embeddingGenerator = kernel.Services.GetRequiredService<ITextEmbeddingGenerationService>();
+
+var embedding = await embeddingGenerator.GenerateEmbeddingAsync("Some text here");
+```
