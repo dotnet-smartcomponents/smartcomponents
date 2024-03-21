@@ -3,6 +3,7 @@
     // TODO: Add values here to run samples in this repo
     // Do not commit your changes to source control
 
+    //"SelfHosted": false,
     //"DeploymentName": "",
     //"Endpoint": "",
     //"ApiKey": ""
