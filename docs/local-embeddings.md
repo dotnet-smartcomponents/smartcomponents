@@ -238,7 +238,7 @@ If you want to use a different model, specify the URL to its `.onnx` file and th
 </PropertyGroup>
 ```
 
-**Requirements:** The model must be in ONNX format, accept BERT-tokenized text, accept inputs labelled `input_ids`, `attention_mask`, `token_type_ids`, and return an output tensor suitable for mean pooling. Many [sentence transformer](https://www.sbert.net/) models on HuggingFace follow these patterns. These are often 384-dimensional embeddings.
+**Requirements:** The model must be in ONNX format, accept BERT-tokenized text, accept inputs labelled `input_ids`, `attention_mask`, `token_type_ids`, and return an output tensor suitable for mean pooling. Many [sentence transformer](https://www.sbert.net/) models on Hugging Face follow these patterns. These are often 384-dimensional embeddings.
 
 ## Performance
 
