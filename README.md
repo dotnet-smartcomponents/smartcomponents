@@ -103,7 +103,9 @@ Once you're ready to add Smart Components to your own app, see:
 
 The purpose of this experiment is to assess whether/how the .NET community would want to use prebuilt UI components for AI features.
 
-**Please give us your feedback, even if it's just to say "*Yes I want this*" or "*I won't use this because...*"**. To give feedback, [post an issue here](https://github.com/dotnet-smartcomponents/smartcomponents/issues).
+**Please take a moment to share your thoughts and feedback with us by filling out our short [.NET Smart Components survey](https://aka.ms/smartcomponents/survey).**
+
+You can also report issues and suggest improvements by [creating an issue](https://github.com/dotnet-smartcomponents/smartcomponents/issues) on GitHub.
 
 Smart Components isn't yet an officially supported part of .NET. Whether or not it graduates to full support depends on community feedback and usage levels.
 
