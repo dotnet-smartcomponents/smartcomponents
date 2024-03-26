@@ -1,11 +1,12 @@
 {
   "SmartComponents": {
-    // TODO: Add values here to run samples in this repo
-    // Do not commit your changes to source control
+    // Normally you'd configure this with OpenAI or Azure OpenAI keys/endpoints
+    // but you can also use local/self-hosted models. Just don't expect the speed
+    // or quality of results to be as good as GPT 3.5 Turbo.
 
-    //"SelfHosted": false,
-    //"DeploymentName": "",
-    //"Endpoint": "",
+    //"SelfHosted": true,
+    //"DeploymentName": "mistral:7b",
+    //"Endpoint": "http://localhost:11434/",
     //"ApiKey": ""
   }
 }

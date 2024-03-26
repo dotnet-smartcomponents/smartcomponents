@@ -16,7 +16,6 @@ public static class RepoSharedConfigUtil
         if (!string.IsNullOrEmpty(envVarPath))
         {
             configuration.AddJsonFile(envVarPath);
-            return;
         }
 
         var dir = Path.GetDirectoryName(Assembly.GetEntryAssembly()!.Location)!;

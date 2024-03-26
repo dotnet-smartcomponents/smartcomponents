@@ -8,6 +8,7 @@
 
     <TailwindCssInput>wwwroot\app.css</TailwindCssInput>
     <TailwindCssOutput>wwwroot\app.out.css</TailwindCssOutput>
+    <NoWarn>CS0414;$(NoWarn)</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
