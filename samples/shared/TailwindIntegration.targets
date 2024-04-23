@@ -5,7 +5,7 @@
 
     <Target Name="TailwindBuild" BeforeTargets="CoreBuild" DependsOnTargets="GetTailwindInputs; AcquireTailwindTooling"
             Inputs="@(TailwindFileInputs)" Outputs="$(TailwindCssOutput)">
-        <Exec Command="$(TailwindExePath) -i $(TailwindCssInput) -o $(TailwindCssOutput)" />
+        <Exec Command="&quot;$(TailwindExePath)&quot; -i $(TailwindCssInput) -o $(TailwindCssOutput)" />
         <Touch Files="$(TailwindCssOutput)" />
         <ItemGroup>
             <FileWrites Include="$(TailwindCssOutput)" />
