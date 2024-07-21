@@ -131,10 +131,10 @@ Language models are innately unpredictable, so you may have to experiment to fin
 
     string userRole = "Maintainer of this open-source project replying to GitHub issues";
     string[] userPhrases = [
-        "Thankyou for contacting us.",
+        "Thank you for contacting us.",
         "To investigate, we'll need a repro as a public Git repo.",
         "Could you please post a screenshot of NEED_INFO",
-        "This sounds like a usage question. This issue tracker is intended for bugs and feature proposals. Unfortunately we don't have capacity to answer general usage questions and would recommend StackOverflow for a faster response.",
+        "This sounds like a usage question. This issue tracker is intended for bugs and feature proposals. Unfortunately, we don't have capacity to answer general usage questions and would recommend StackOverflow for a faster response.",
         "We don't accept ZIP files as repros.",
     ];
 }
