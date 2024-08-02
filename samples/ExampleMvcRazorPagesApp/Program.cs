@@ -1,6 +1,9 @@
 // Licensed to the .NET Foundation under one or more agreements.
 // The .NET Foundation licenses this file to you under the MIT license.
 
+using System.Globalization;
+using Microsoft.Extensions.Primitives;
+using SmartComponents.Inference;
 using SmartComponents.Inference.OpenAI;
 using SmartComponents.LocalEmbeddings;
 
@@ -44,6 +47,19 @@ var expenseCategories = embedder.EmbedRange(
     ["Groceries", "Utilities", "Rent", "Mortgage", "Car Payment", "Car Insurance", "Health Insurance", "Life Insurance", "Home Insurance", "Gas", "Public Transportation", "Dining Out", "Entertainment", "Travel", "Clothing", "Electronics", "Home Improvement", "Gifts", "Charity", "Education", "Childcare", "Pet Care", "Other"]);
 
 app.MapSmartComboBox("/api/suggestions/accounting-categories",
-    request => embedder.FindClosest(request.Query, expenseCategories));
+    request =>
+    {
+        StringValues minSimilarity;
+        request.HttpContext.Request.Form.TryGetValue("similarityThreshold", out minSimilarity);
+
+        var query = new SimilarityQuery()
+        {
+
+            SearchText = request.Query.SearchText,
+            MaxResults = request.Query.MaxResults,
+            MinSimilarity = Convert.ToSingle(minSimilarity.ToString(), new CultureInfo("en-US"))
+        };
+        return embedder.FindClosest(query, expenseCategories);
+    });
 
 app.Run();
